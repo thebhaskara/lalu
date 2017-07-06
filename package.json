@@ -1,0 +1,26 @@
+{
+  "name": "lalu",
+  "version": "1.0.0",
+  "description": "Simple Javascript structures to implement UI applications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thebhaskara/lalu.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thebhaskara/lalu/issues"
+  },
+  "homepage": "https://github.com/thebhaskara/lalu#readme",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^3.4.2"
+  }
+}
