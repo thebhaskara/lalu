@@ -248,7 +248,7 @@
     ModelPrototype.getSet = function(prop, callback) {
         if (isFunction(callback)) {
             var val = callback(this.get(prop));
-            this.set(val);
+            this.set(prop, val);
         }
         return this;
     };

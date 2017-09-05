@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Lalu JS - todo app</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+    <header><h1>Lets get started</h1></header>
+    <nav>
+        <ul>
+            <li>for running tests <a href="mocha-tests/index.html">click here</a></li>
+        </ul>
+    </nav>
+    <div id="page">
+    </div>
+    <script type="text/html" id="pageHtml">
+        <div>
+            <button bind-click="event.add">Add</button>
+            <label bind-text="todos.length"></label>
+        </div>
+        <div bind-components="todos"></div>
+    </script>
+    <script type="text/html" id="todoItemHtml">
+        <div>
+            <input type="checkbox" name="" bind-value="isDone">
+            <input type="text" name="" bind-value="text" bind-element="textElement" bind-keydown="keydown">
+            <span bind-text="text"></span>
+        </div>
+    </script>
+    <script src="../../node_modules/lodash/lodash.js"></script>
+    <script src="../../src/lalu.js"></script>
+    <script src="../../src/extend.js"></script>
+    <script src="../../src/model.js"></script>
+    <script src="../../src/view.js"></script>
+    <script src="../../src/view-event-binders.js"></script>
+    <script src="../../src/view-basic-binders.js"></script>
+    <script src="todo-app.js"></script>
+</body>
+
+</html>

@@ -245,5 +245,23 @@
         binderObject.callback.call(that, el, property);
     };
 
-    return (lalu.view = lalu.extend(View, lalu.model));
+    lalu.view = lalu.extend(View, lalu.model);
+
+    lalu.view.makeView = function(options) {
+        return lalu.extend(options, lalu.view);
+    }
+
+    lalu.view.makeViewInstance = function(options) {
+        var View = lalu.extend(options, lalu.view)
+        return new View();
+    }
+
+    lalu.view.strap = function(view, el) {
+        el = el || document.body;
+        each(view.elements, function(ele) {
+            el.appendChild(ele);
+        });
+    }
+
+    return lalu.view;
 }));
