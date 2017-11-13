@@ -1,6 +1,6 @@
 (function(root, factory) {
     if (typeof define === "function" && define.amd) {
-        define(['lodash', 'lalu', 'lalu.view'], factory);
+        define(['lodash', 'lalu', 'view'], factory);
     } else if (typeof module === "object" && module.exports) {
         var lodash = require('lodash');
         var lalu = require('./lalu');
@@ -177,10 +177,11 @@
 
     View.addBinder('bind-class', function(el, property) {
         var classesMap = {};
-        this.watch(property, function(components) {
+        this.watch(property, function(value) {
             each(classesMap, function(v, key) {
                 classesMap[key] = false;
             })
+            if(isNil(value)) value = [];
             if (isArray(value)) {
                 each(value, function(item) {
                     classesMap[item] = true;

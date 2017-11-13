@@ -1,6 +1,6 @@
 (function(root, factory) {
     if (typeof define === "function" && define.amd) {
-        define(['lodash', 'lalu', 'lalu.model'], factory);
+        define(['lodash', 'lalu', 'model'], factory);
     } else if (typeof module === "object" && module.exports) {
         var lodash = require('lodash');
         var lalu = require('./lalu');
@@ -22,7 +22,10 @@
     var View = function(options) {
         var that = this;
 
-        options = defaultOptions(options, that);
+
+        options = that.options = defaultOptions(options, that);
+
+        // that.attributes = options.attributes;
 
         that.elements = makeElements(options, that);
 
@@ -39,6 +42,7 @@
             elements: that.elements,
             elementsSelector: that.elementsSelector,
             html: that.html,
+            attributes: that.attributes,
             css: that.css || '',
         });
 
@@ -63,10 +67,9 @@
     var setCss = ViewPrototype.setCss = function(css) {
         css = css || '';
 
-        var id;
+        var id = this.name;
         if (css.indexOf(viewNameText) > -1) {
             css = css.replace(new RegExp(viewNameText, 'g'), this.name);
-            id = this.name;
         }
         if (css.indexOf(viewIdText) > -1) {
             css = css.replace(new RegExp(viewIdText, 'g'), this.id);
@@ -86,6 +89,7 @@
     };
 
     var setHtml = ViewPrototype.setHtml = function(html, isAuto) {
+        var self = this;
         // Todo remove elements that were attached before this.
         var div = document.createElement('div');
         div.innerHTML = html || '<div></div>';
@@ -93,6 +97,8 @@
         var result = [];
         each(div.children, function(element) {
             result.push(element);
+            lalu.view.addClass(element, self.name);
+            lalu.view.addClass(element, self.id);
         });
 
         var that = this;
@@ -114,23 +120,17 @@
     }
 
     ViewPrototype.clone = function(settings) {
-        var that = this,
-            options = {};
 
-        options.name = that.name;
-        options.attributes = that.attributes;
-        options.watches = that.watches;
-        options.binders = that.binders;
+        var options = this.options;
+        _.assignIn(options, this.__proto__);
+        options.name = this.name;
+        options.init = this.init;
+        options.initWatches = this.initWatches;
 
-        if (settings.html || settings.elements || settings.elementsSelector) {
-            options.elements = makeElements(settings);
-        } else {
-            options.elements = map(that.elements, function(el) {
-                return el.cloneNode(true);
-            });
-        }
+        var view = lalu.view.makeViewInstance(options);
+        view.set(this.attributes);
 
-        return new lalu.view(options);
+        return view;
     }
 
     var globalBinders = {};
@@ -248,7 +248,11 @@
     lalu.view = lalu.extend(View, lalu.model);
 
     lalu.view.makeView = function(options) {
-        return lalu.extend(options, lalu.view);
+        // var view = lalu.extend(options, lalu.view);
+        // view.prototype.options = options;
+        // view.options = options;
+        // return view;
+        return lalu.extend(options, lalu.view)
     }
 
     lalu.view.makeViewInstance = function(options) {

@@ -83,7 +83,10 @@
         var parentPaths = [];
 
         var executeWatch = function(watch) {
-            watch.callback.call(that, that.get(watch.path));
+            var value = that.get(watch.path);
+            if (!isUndefined(value)) {
+                watch.callback.call(that, that.get(watch.path));
+            }
         }
 
         if (path == undefined) {
@@ -92,6 +95,7 @@
             each(watches, executeWatch);
 
         } else {
+            options = options || {};
 
             // generating a list of possible parents.
             if (options.propagateToParent) {
@@ -110,7 +114,8 @@
                 if (watch.path == path) {
                     watches.push(watch);
                     return true;
-                } else if (options.propagateToChildren && watch.path && watch.path.indexOf(path) == 0) {
+                } else if (options.propagateToChildren && watch.path &&
+                    (watch.path.indexOf(path + '.') == 0 || watch.path.indexOf(path + '[') == 0)) {
                     childwatches.push(watch);
                 } else if (options.propagateToParent) {
                     if (watch.path == undefined) {
@@ -205,11 +210,12 @@
                 });
 
                 isFineToExecute && actualCallback.apply(that, res);
-            }, list;
+            },
+            list;
 
         if (arguments.length > 1) list = arguments;
         else list = params;
-        
+
         each(list, function(param, index) {
             if (isString(param)) {
                 watchProps.push(param);

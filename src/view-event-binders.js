@@ -1,6 +1,6 @@
 (function(root, factory) {
     if (typeof define === "function" && define.amd) {
-        define(['lodash', 'lalu', 'lalu.model'], factory);
+        define(['lodash', 'lalu', 'model'], factory);
     } else if (typeof module === "object" && module.exports) {
         var lodash = require('lodash');
         var lalu = require('./lalu');
@@ -53,6 +53,7 @@
             var that = this;
             var handler = function(e) {
                 that.set(property, e);
+                that.set(property, undefined);
             };
             attachEvent(event, el, handler);
             that.addDestroyCallback(function() {
